@@ -1,38 +1,59 @@
-import { Container, Card, H1, Muted } from "@/components/ui";
+// app/terms/page.tsx
+import { Container, H1, H2, Muted, Card } from "@/components/ui";
 
-export const metadata = { title: "Terms — zcash.ventures" };
+export const metadata = {
+  title: "Terms",
+  description:
+    "Terms for using Zcash Ventures website and requesting ZEC brokerage quotes.",
+};
 
 export default function Page() {
   return (
-    <Container>
-      <div className="py-14 sm:py-20">
-        <div className="space-y-4">
-          <H1>Terms</H1>
-          <Muted>Replace this page with counsel-approved terms.</Muted>
-        </div>
+    <Container className="py-12 md:py-16">
+      <H1>Terms</H1>
+      <Muted className="mt-2">Effective date: publish date</Muted>
 
-        <div className="mt-10 space-y-4">
-          <Card>
-            <div className="text-sm font-semibold">Service</div>
-            <p className="mt-2 text-sm text-muted">
-              zcash.ventures provides execution coordination and onboarding materials related to acquiring and using ZEC.
-            </p>
-          </Card>
+      <div className="mt-10 space-y-6">
+        <Card>
+          <H2>Nature of Service</H2>
+          <p className="mt-3 text-sm text-muted">
+            Zcash Ventures provides private brokerage facilitation for ZEC transactions. We are not
+            a retail exchange and do not provide custodial wallet services. All decisions and risk
+            acceptance remain solely with you.
+          </p>
+        </Card>
 
-          <Card>
-            <div className="text-sm font-semibold">Fees & quotes</div>
-            <p className="mt-2 text-sm text-muted">
-              Quotes are provided in writing prior to processing. Users must confirm details before sending funds.
-            </p>
-          </Card>
+        <Card>
+          <H2>No Advice</H2>
+          <p className="mt-3 text-sm text-muted">
+            We do not provide investment, legal, or tax advice. Any information is provided for
+            operational coordination only.
+          </p>
+        </Card>
 
-          <Card>
-            <div className="text-sm font-semibold">Liability</div>
-            <p className="mt-2 text-sm text-muted">
-              To the maximum extent permitted by law, the service is provided “as is” without warranties.
-            </p>
-          </Card>
-        </div>
+        <Card>
+          <H2>Eligibility & Refusal</H2>
+          <p className="mt-3 text-sm text-muted">
+            You must be legally permitted to transact in your jurisdiction. We reserve the right to
+            decline any request at our discretion.
+          </p>
+        </Card>
+
+        <Card>
+          <H2>Security</H2>
+          <p className="mt-3 text-sm text-muted">
+            We will never request seed phrases, private keys, or remote wallet access. If anyone
+            requests these while claiming to represent us, treat it as fraud.
+          </p>
+        </Card>
+
+        <Card>
+          <H2>Changes</H2>
+          <p className="mt-3 text-sm text-muted">
+            We may update these terms from time to time. Continued use of the website constitutes
+            acceptance of changes.
+          </p>
+        </Card>
       </div>
     </Container>
   );
