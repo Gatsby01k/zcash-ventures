@@ -33,9 +33,6 @@ export default function Page() {
                 Before paying, read <Link className="underline decoration-line underline-offset-4 hover:decoration-accent" href="/security">Security</Link>.
               </div>
             </Card>
-
-            <Card>
-            </Card>
           </div>
 
           <Card>
