@@ -126,16 +126,21 @@ export function ButtonLink({
   className,
   href,
   children,
+  variant = "solid",
   ...props
-}: React.ComponentProps<typeof Link>) {
+}: React.ComponentProps<typeof Link> & {
+  variant?: "solid" | "ghost";
+}) {
+  const base =
+    "inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-semibold transition";
+  const solid = "bg-accent text-bg hover:opacity-90";
+  const ghost = "border border-line bg-transparent text-text hover:bg-card";
+
   return (
     <Link
       {...props}
       href={href}
-      className={cx(
-        "inline-flex items-center justify-center rounded-2xl bg-accent px-5 py-3 text-sm font-semibold text-bg hover:opacity-90",
-        className
-      )}
+      className={cx(base, variant === "ghost" ? ghost : solid, className)}
     >
       {children}
     </Link>
