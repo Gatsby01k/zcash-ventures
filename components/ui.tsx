@@ -43,12 +43,24 @@ export function Pill({ className, ...props }: DivProps) {
   );
 }
 
-export function Badge({ className, ...props }: DivProps) {
+export function Badge({
+  className,
+  tone = "neutral",
+  ...props
+}: DivProps & { tone?: "good" | "warn" | "neutral" }) {
+  const toneClass =
+    tone === "good"
+      ? "border-good/40 text-good"
+      : tone === "warn"
+      ? "border-warn/40 text-warn"
+      : "border-line text-text";
+
   return (
     <div
       {...props}
       className={cx(
-        "inline-flex items-center rounded-full border border-line bg-card px-3 py-1 text-xs font-medium",
+        "inline-flex items-center rounded-full border bg-card px-2.5 py-1 text-[11px] font-semibold",
+        toneClass,
         className
       )}
     />
