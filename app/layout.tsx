@@ -1,5 +1,6 @@
 // app/layout.tsx
 import "./globals.css";
+import Script from "next/script";
 import type { Metadata } from "next";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
@@ -89,6 +90,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
+        <Script
+  src="https://www.googletagmanager.com/gtag/js?id=G-MTT4RRVC0Y"
+  strategy="afterInteractive"
+/>
+<Script id="ga4" strategy="afterInteractive">
+  {`
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-MTT4RRVC0Y');
+  `}
+</Script>
         <Nav />
         <main>{children}</main>
         <Footer />
