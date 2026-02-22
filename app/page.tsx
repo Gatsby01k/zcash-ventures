@@ -1,147 +1,219 @@
+// app/page.tsx
+import Image from "next/image";
 import Link from "next/link";
 import { Badge, ButtonLink, Card, Container, H1, H2, H3, Muted, Pill } from "@/components/ui";
 
-function Feature({ title, body }: { title: string; body: string }) {
-  return (
-    <Card>
-      <div className="space-y-2">
-        <H3>{title}</H3>
-        <p className="text-sm text-muted">{body}</p>
-      </div>
-    </Card>
-  );
-}
+const TRUST_POINTS = [
+  { title: "Off-Exchange Execution", desc: "Structured ZEC execution outside public order books." },
+  { title: "Non-Custodial Workflow", desc: "We do not custody client funds as part of the process." },
+  { title: "Discreet Coordination", desc: "Direct, private coordination—no retail funnel." },
+  { title: "Quote Transparency", desc: "Clear quote terms before execution. No hidden spreads." },
+];
+
+const USE_CASES = [
+  "Larger ZEC orders requiring reduced visible market impact",
+  "Privacy-sensitive transactions that avoid public order book exposure",
+  "Structured settlement and coordination (fiat / crypto / mixed)",
+  "Execution planning (tranches, timing, confirmation flow)",
+];
 
 export default function Page() {
   return (
     <div>
-      <section className="relative overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 opacity-40">
-          <div className="absolute -left-24 top-10 h-72 w-72 rounded-full bg-accent/20 blur-3xl" />
-          <div className="absolute right-0 top-40 h-72 w-72 rounded-full bg-accent/10 blur-3xl" />
+      {/* HERO */}
+      <section className="relative overflow-hidden border-b border-line">
+        <div className="absolute inset-0">
+          <Image
+            src="/hero.jpg"
+            alt="Private ZEC OTC execution desk"
+            fill
+            priority
+            className="object-cover opacity-55"
+          />
+          <div className="absolute inset-0 bg-gradient-to-b from-bg/40 via-bg/70 to-bg" />
         </div>
 
-        <Container>
-          <div className="py-14 sm:py-20">
-            <div className="flex flex-wrap items-center gap-2">
-              <Pill><Badge tone="good">Any amount</Badge> $1,000 → large</Pill>
-              <Pill><Badge tone="good">Fiat or crypto</Badge> choose your route</Pill>
-              <Pill><Badge tone="warn">No seed phrase</Badge> ever</Pill>
+        <Container className="relative py-16 md:py-24">
+          <div className="max-w-3xl">
+            <Badge>Private Brokerage · ZEC OTC Execution</Badge>
+            <H1 className="mt-4">
+              Private ZEC Broker
+              <br />
+              Structured Zcash OTC Execution
+            </H1>
+            <p className="mt-4 text-lg text-muted">
+              Discreet, direct ZEC execution outside public exchange order books. Designed for
+              privacy-sensitive and size-aware transactions—without a retail exchange flow.
+            </p>
+
+            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+              <ButtonLink href="/start">Request Confidential Quote</ButtonLink>
+              <Link
+                href="/how-it-works"
+                className="inline-flex items-center justify-center rounded-2xl border border-line px-5 py-3 text-sm font-medium hover:bg-card"
+              >
+                See How It Works
+              </Link>
             </div>
 
-            <div className="mt-6 grid gap-10 lg:grid-cols-2 lg:items-center">
-              <div className="space-y-5">
-                <H1>Buy ZEC now. Fast, clear, verifiable.</H1>
-                <Muted>
-                  You get a written quote before payment, exact instructions, and verifiable delivery to your wallet.
-                  New to ZEC? We guide you from zero: wallet setup, seed safety, and how to verify your transaction.
-                </Muted>
+            <div className="mt-10 flex flex-wrap gap-2">
+              <Pill>Off-Exchange</Pill>
+              <Pill>Discreet</Pill>
+              <Pill>Non-Custodial</Pill>
+              <Pill>Structured Execution</Pill>
+            </div>
+          </div>
+        </Container>
+      </section>
 
-                <div className="flex flex-wrap gap-3">
-                  <ButtonLink href="/start">Get my quote</ButtonLink>
-                  <ButtonLink href="/how-it-works" variant="ghost">See how it works</ButtonLink>
-                </div>
+      {/* TRUST GRID */}
+      <section className="border-b border-line">
+        <Container className="py-12 md:py-16">
+          <div className="flex items-end justify-between gap-6">
+            <div className="max-w-2xl">
+              <H2>Institutional-Style Execution, Built for Privacy</H2>
+              <Muted className="mt-2">
+                No hype. No retail exchange theatre. Just a structured brokerage workflow for ZEC.
+              </Muted>
+            </div>
+            <div className="hidden md:block">
+              <Link href="/security" className="text-sm text-muted hover:text-text">
+                Security guidelines →
+              </Link>
+            </div>
+          </div>
 
-                <div className="text-xs text-muted">
-                  No phone calls. No public chats. Private written coordination only.
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            {TRUST_POINTS.map((x) => (
+              <Card key={x.title}>
+                <H3>{x.title}</H3>
+                <p className="mt-2 text-sm text-muted">{x.desc}</p>
+              </Card>
+            ))}
+          </div>
+        </Container>
+      </section>
+
+      {/* VISUAL + USE CASES */}
+      <section className="border-b border-line">
+        <Container className="py-12 md:py-16">
+          <div className="grid gap-8 lg:grid-cols-2 lg:items-center">
+            <div className="relative overflow-hidden rounded-2xl border border-line">
+              <Image
+                src="/section-1.jpg"
+                alt="Institutional Zcash brokerage workflow"
+                width={1400}
+                height={900}
+                className="h-auto w-full object-cover"
+              />
+            </div>
+
+            <div>
+              <H2>When Private ZEC Brokerage Makes Sense</H2>
+              <Muted className="mt-2">
+                OTC execution is typically used when public order books are the wrong tool for the job.
+              </Muted>
+
+              <ul className="mt-6 space-y-3 text-sm text-muted">
+                {USE_CASES.map((x) => (
+                  <li key={x} className="flex gap-3">
+                    <span className="mt-1 h-2 w-2 rounded-full bg-accent" />
+                    <span>{x}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <div className="mt-8 flex gap-3">
+                <ButtonLink href="/start">Get My Quote</ButtonLink>
+                <Link
+                  href="/fees"
+                  className="inline-flex items-center justify-center rounded-2xl border border-line px-5 py-3 text-sm font-medium hover:bg-card"
+                >
+                  Quotes & transparency
+                </Link>
+              </div>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* LONG-FORM SEO BLOCK */}
+      <section>
+        <Container className="py-12 md:py-16">
+          <div className="grid gap-10 lg:grid-cols-3">
+            <div className="lg:col-span-2">
+              <H2>Zcash (ZEC) OTC Desk — Private Transactions Without Public Order Book Exposure</H2>
+              <p className="mt-4 text-sm text-muted">
+                Zcash (ZEC) is a privacy-focused digital asset designed to enable shielded transactions
+                and more confidential value transfer. While retail exchanges can be convenient, they
+                rely on public order books and standardized flows that are not always suitable for
+                privacy-sensitive or size-aware execution.
+              </p>
+              <p className="mt-4 text-sm text-muted">
+                For larger ZEC transactions, visible intent can attract unwanted attention and may
+                increase slippage. A structured OTC model can reduce public signalling by coordinating
+                execution outside open order books and by using an execution plan that fits the order.
+              </p>
+
+              <H3 className="mt-8">What an OTC Execution Model Typically Emphasizes</H3>
+              <p className="mt-3 text-sm text-muted">
+                Brokerage-style execution focuses on clarity, coordination, and structure: a defined
+                quote window, clear settlement preference, and a workflow that avoids unnecessary
+                exposure. For complex requests, execution may be staged (tranches) to balance market
+                impact and timing.
+              </p>
+
+              <H3 className="mt-8">Non-Custodial, Discreet Coordination</H3>
+              <p className="mt-3 text-sm text-muted">
+                Our process is designed to avoid retail exchange patterns and unnecessary data
+                collection at the inquiry stage. We coordinate directly and provide a clear quote
+                framework before execution.
+              </p>
+
+              <div className="mt-10 flex flex-col gap-3 sm:flex-row">
+                <ButtonLink href="/start">Request a Confidential Quote</ButtonLink>
+                <Link
+                  href="/zcash-otc-desk"
+                  className="inline-flex items-center justify-center rounded-2xl border border-line px-5 py-3 text-sm font-medium hover:bg-card"
+                >
+                  Read: Zcash OTC Desk →
+                </Link>
+              </div>
+            </div>
+
+            <div className="space-y-4">
+              <Card>
+                <H3>Fast decision signal</H3>
+                <p className="mt-2 text-sm text-muted">
+                  If you’re comparing retail exchange vs OTC for ZEC, start here.
+                </p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <Pill>Market impact</Pill>
+                  <Pill>Discretion</Pill>
+                  <Pill>Structure</Pill>
                 </div>
+              </Card>
+
+              <div className="relative overflow-hidden rounded-2xl border border-line">
+                <Image
+                  src="/section-2.jpg"
+                  alt="Secure ZEC transaction coordination"
+                  width={1200}
+                  height={900}
+                  className="h-auto w-full object-cover"
+                />
               </div>
 
               <Card>
-                <div className="space-y-5">
-                  <div className="text-sm font-semibold">4-step execution</div>
-                  <ol className="space-y-3 text-sm text-muted">
-                    <li><span className="text-text font-semibold">1.</span> Submit your request</li>
-                    <li><span className="text-text font-semibold">2.</span> Receive a written quote + payment details</li>
-                    <li><span className="text-text font-semibold">3.</span> Send funds + your ZEC address</li>
-                    <li><span className="text-text font-semibold">4.</span> Receive ZEC + onboarding pack</li>
-                  </ol>
-
-                  <div className="rounded-xl border border-line bg-bg p-4 text-xs text-muted">
-                    Before paying, read the <Link className="underline decoration-line underline-offset-4 hover:decoration-accent" href="/security">security checklist</Link>.
-                  </div>
-
-                  <div className="flex items-center justify-between gap-3">
-                    <Link href="/faq" className="text-sm text-muted underline decoration-line underline-offset-4 hover:decoration-accent">
-                      Read FAQ
-                    </Link>
-                    <ButtonLink href="/start">Start now</ButtonLink>
-                  </div>
-                </div>
+                <H3>Security baseline</H3>
+                <p className="mt-2 text-sm text-muted">
+                  We never request seed phrases, private keys, or remote wallet access.
+                </p>
+                <Link href="/security" className="mt-4 inline-block text-sm hover:underline">
+                  View security guidelines →
+                </Link>
               </Card>
             </div>
-          </div>
-        </Container>
-      </section>
-
-      <section className="border-t border-line">
-        <Container>
-          <div className="py-14 sm:py-20">
-            <div className="mb-8 space-y-2">
-              <H2>Trust is built into the flow</H2>
-              <Muted>
-                People lose money when processes are unclear. We do the opposite: written quotes, explicit steps, verifiable delivery.
-              </Muted>
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-3">
-              <Feature
-                title="Written quote before payment"
-                body="You receive the exact quote and payment details in writing before you send anything."
-              />
-              <Feature
-                title="Verifiable delivery"
-                body="You receive transaction details and a checklist to verify in-wallet and via explorer."
-              />
-              <Feature
-                title="Beginner-proof onboarding"
-                body="From zero to self-custody: wallet setup, seed safety rules, and safe usage guidance."
-              />
-            </div>
-
-            <div className="mt-6 flex flex-wrap gap-3">
-              <ButtonLink href="/security" variant="ghost">Security checklist</ButtonLink>
-              <ButtonLink href="/fees" variant="ghost">Quote & fees</ButtonLink>
-              <ButtonLink href="/start">Get my quote</ButtonLink>
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      <section className="border-t border-line">
-        <Container>
-          <div className="py-14 sm:py-20">
-            <div className="mb-8 space-y-2">
-              <H2>Designed for everyone</H2>
-              <Muted>Beginners, experienced crypto users, small buys, and large allocations.</Muted>
-            </div>
-
-            <div className="grid gap-4 md:grid-cols-3">
-              <Feature title="New to crypto?" body="We guide you through wallet basics and how to avoid beginner mistakes." />
-              <Feature title="Already have crypto?" body="Tell us what you have and we route the cleanest execution path." />
-              <Feature title="Large allocation?" body="We can split execution and provide a stricter verification checklist." />
-            </div>
-          </div>
-        </Container>
-      </section>
-
-      <section className="border-t border-line">
-        <Container>
-          <div className="py-14 sm:py-20">
-            <Card>
-              <div className="flex flex-col items-start justify-between gap-6 md:flex-row md:items-center">
-                <div className="space-y-2">
-                  <div className="text-sm font-semibold">Ready?</div>
-                  <p className="text-sm text-muted">
-                    Start with a request. We reply with a written quote and clear payment instructions.
-                  </p>
-                </div>
-                <div className="flex gap-3">
-                  <ButtonLink href="/start">Get my quote</ButtonLink>
-                  <ButtonLink href="/how-it-works" variant="ghost">How it works</ButtonLink>
-                </div>
-              </div>
-            </Card>
           </div>
         </Container>
       </section>
