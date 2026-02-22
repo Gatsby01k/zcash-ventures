@@ -9,7 +9,7 @@ export function Footer() {
           <div className="space-y-2">
             <div className="font-semibold">zcash.ventures</div>
             <p className="text-sm text-muted">
-              Conversion-first ZEC gateway: written quotes, verifiable delivery, onboarding from zero.
+              Private Zcash (ZEC) brokerage for those who value privacy, self-custody, and structured execution.
             </p>
           </div>
 
