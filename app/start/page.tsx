@@ -38,8 +38,6 @@ export default function Page() {
               <div className="text-sm font-semibold">Email name</div>
               <p className="mt-2 text-sm text-muted">
                 Recommend: <span className="font-mono text-xs text-text">start@zcash.ventures</span> (or <span className="font-mono text-xs text-text">buy@zcash.ventures</span>).
-                Set <span className="font-mono text-xs text-text">LEAD_TO_EMAIL</span> to your chosen inbox in Vercel.
-              </p>
             </Card>
           </div>
 
