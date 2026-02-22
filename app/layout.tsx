@@ -16,6 +16,11 @@ export const metadata: Metadata = {
   keywords: [
     "private ZEC broker",
     "Zcash OTC",
+    "Zcash",
+    "Buy Zcash",
+    "Buy ZEC",
+    "Privacy Coin",
+    "Investment Zcash",
     "ZEC OTC desk",
     "buy ZEC privately",
     "sell ZEC OTC",
