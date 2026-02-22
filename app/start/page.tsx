@@ -35,9 +35,6 @@ export default function Page() {
             </Card>
 
             <Card>
-              <div className="text-sm font-semibold">Email name</div>
-              <p className="mt-2 text-sm text-muted">
-                Recommend: <span className="font-mono text-xs text-text">start@zcash.ventures</span> (or <span className="font-mono text-xs text-text">buy@zcash.ventures</span>).
             </Card>
           </div>
 
