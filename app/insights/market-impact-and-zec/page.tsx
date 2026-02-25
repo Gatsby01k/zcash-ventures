@@ -1,15 +1,58 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Container, H1, H2, Muted, Card } from "@/components/ui";
 
-export const metadata = {
-  title: "Market Impact and ZEC",
+const CANONICAL = "https://zcash.ventures/insights/market-impact-and-zec";
+
+export const metadata: Metadata = {
+  title: "Market Impact and ZEC | How to Avoid Slippage on Larger Orders",
   description:
-    "Why market impact happens, how visible intent affects execution, and why tranche structure exists for ZEC.",
+    "How slippage happens in thinner order books and how structured execution can reduce market impact for larger ZEC trades.",
+  alternates: { canonical: CANONICAL },
+  openGraph: {
+    type: "article",
+    url: CANONICAL,
+    title: "Market Impact and ZEC: Why Structure Matters",
+    description:
+      "Understanding slippage, market impact, and why tranche-based execution can help with larger ZEC orders.",
+    images: [{ url: "https://zcash.ventures/og-image.jpg" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Market Impact and ZEC",
+    description: "How to reduce slippage when executing larger ZEC trades.",
+    images: ["https://zcash.ventures/og-image.png"],
+  },
 };
 
 export default function Page() {
   return (
     <Container className="py-12 md:py-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: "Market Impact and ZEC: Why Structure Matters",
+            description:
+              "How slippage happens in thinner order books and how structured execution can reduce market impact for larger ZEC trades.",
+            datePublished: "2026-02-25",
+            dateModified: "2026-02-25",
+            author: { "@type": "Organization", name: "Zcash Ventures" },
+            publisher: {
+              "@type": "Organization",
+              name: "Zcash Ventures",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://zcash.ventures/og-image.jpg",
+              },
+            },
+            mainEntityOfPage: CANONICAL,
+          }),
+        }}
+      />
+
       <H1>Market Impact and ZEC: Why Structure Matters</H1>
       <Muted className="mt-2">Large visible intent changes pricing behavior.</Muted>
 
