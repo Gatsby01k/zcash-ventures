@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 const SITE = "https://zcash.ventures";
-const OG_IMAGE = `${SITE}/og-image.jpg`;
+const OG_IMAGE = `${SITE}/og-image.png`;
 
 export function articleMeta(opts: {
   slug: string; // "/insights/..."
