@@ -43,6 +43,13 @@ export const insights: Insight[] = [
   lastModified: "2026-02-25",
 },
   {
+  slug: "how-crypto-otc-execution-works",
+  title: "How Crypto OTC Execution Works | Quote, Settlement & Tranches",
+  description:
+    "A practical guide to OTC execution: quotes, quote windows, settlement coordination, and tranche structure for size-aware trades.",
+  lastModified: "2026-02-25",
+},
+ {
     slug: "market-impact-and-zec",
     title: "Market Impact and ZEC: How to Avoid Slippage on Larger Orders",
     description:
