@@ -1,3 +1,4 @@
+import { insights } from "@/lib/insights";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Container, H1, Muted, Card, H2 } from "@/components/ui";
@@ -15,7 +16,7 @@ export const metadata: Metadata = {
     title: "Insights",
     description:
       "Practical notes on structured ZEC execution: OTC vs exchange, market impact, and execution structure.",
-    images: [{ url: "https://zcash.ventures/og-image.jpg" }],
+    images: [{ url: "https://zcash.ventures/og-image.png" }],
   },
   twitter: {
     card: "summary_large_image",
