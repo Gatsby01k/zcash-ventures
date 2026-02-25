@@ -43,6 +43,13 @@ export const insights: Insight[] = [
   lastModified: "2026-02-25",
 },
   {
+  slug: "zcash-shielded-vs-transparent",
+  title: "Zcash Shielded vs Transparent | z-address vs t-address Explained",
+  description:
+    "A practical explanation of shielded vs transparent Zcash usage: what each reveals, how privacy depends on usage, and why execution still matters.",
+  lastModified: "2026-02-25",
+},
+  {
   slug: "how-crypto-otc-execution-works",
   title: "How Crypto OTC Execution Works | Quote, Settlement & Tranches",
   description:
