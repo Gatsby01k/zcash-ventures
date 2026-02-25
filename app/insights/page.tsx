@@ -1,53 +1,36 @@
-import { insights } from "@/lib/insights";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { Container, H1, Muted, Card, H2 } from "@/components/ui";
+import { insights } from "@/lib/insights";
 
 const CANONICAL = "https://zcash.ventures/insights";
 
 export const metadata: Metadata = {
-  title: "Insights | ZEC OTC Execution, Slippage & Private Brokerage",
+  title: "Insights | ZEC OTC Execution, Privacy & Market Structure",
   description:
-    "Short, practical notes on ZEC OTC execution, market impact, and structured private brokerage workflows.",
+    "Practical notes on ZEC OTC execution, privacy considerations, slippage, and structured brokerage workflows.",
   alternates: { canonical: CANONICAL },
   openGraph: {
     type: "website",
     url: CANONICAL,
     title: "Insights",
     description:
-      "Practical notes on structured ZEC execution: OTC vs exchange, market impact, and execution structure.",
+      "Structured ZEC execution, OTC vs exchange, privacy models, and slippage control.",
     images: [{ url: "https://zcash.ventures/og-image.png" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "Insights",
     description:
-      "Practical notes on structured ZEC execution: OTC, slippage, and market impact.",
-    images: ["https://zcash.ventures/og-image.png"],
+      "ZEC OTC execution, privacy, slippage, and market structure.",
+    images: ["https://zcash.ventures/og-image.jpg"],
   },
 };
-
-const POSTS = [
-  {
-    href: "/insights/what-is-a-zcash-otc-desk",
-    title: "What Is a Zcash OTC Desk?",
-    desc: "How OTC execution differs from retail exchange flow and why it matters for ZEC.",
-  },
-  {
-    href: "/insights/market-impact-and-zec",
-    title: "Market Impact and ZEC: Why Structure Matters",
-    desc: "Why visible intent can increase slippage and why tranche execution exists.",
-  },
-  {
-    href: "/insights/otc-vs-exchange",
-    title: "OTC vs Exchange: Structural Differences",
-    desc: "Execution mechanics: signaling, liquidity, settlement coordination, and control.",
-  },
-];
 
 export default function Page() {
   return (
     <Container className="py-12 md:py-16">
+      {/* Collection + ItemList schema */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -55,16 +38,16 @@ export default function Page() {
             "@context": "https://schema.org",
             "@type": "CollectionPage",
             name: "Insights",
-            description:
-              "Short, practical notes on ZEC OTC execution, market impact, and structured private brokerage workflows.",
             url: CANONICAL,
+            description:
+              "Practical notes on ZEC OTC execution, privacy considerations, and structured brokerage workflows.",
             mainEntity: {
               "@type": "ItemList",
-              itemListElement: POSTS.map((p, index) => ({
+              itemListElement: insights.map((post, index) => ({
                 "@type": "ListItem",
                 position: index + 1,
-                url: `https://zcash.ventures${p.href}`,
-                name: p.title,
+                url: `https://zcash.ventures/insights/${post.slug}`,
+                name: post.title,
               })),
             },
             publisher: {
@@ -80,14 +63,22 @@ export default function Page() {
       />
 
       <H1>Insights</H1>
-      <Muted className="mt-2">Practical notes on structured ZEC execution.</Muted>
+      <Muted className="mt-2">
+        Practical notes on structured ZEC execution and privacy-aware workflows.
+      </Muted>
 
       <div className="mt-10 grid gap-4 md:grid-cols-2">
-        {POSTS.map((p) => (
-          <Link key={p.href} href={p.href} className="block">
+        {insights.map((post) => (
+          <Link
+            key={post.slug}
+            href={`/insights/${post.slug}`}
+            className="block"
+          >
             <Card>
-              <H2>{p.title}</H2>
-              <p className="mt-2 text-sm text-muted">{p.desc}</p>
+              <H2>{post.title}</H2>
+              <p className="mt-2 text-sm text-muted">
+                {post.description}
+              </p>
               <p className="mt-4 text-sm">Read →</p>
             </Card>
           </Link>
