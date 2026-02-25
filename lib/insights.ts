@@ -22,6 +22,13 @@ export const insights: Insight[] = [
     lastModified: "2026-02-25",
   },
   {
+  slug: "how-to-avoid-slippage-buying-zec",
+  title: "How to Avoid Slippage When Buying ZEC | Practical Execution Tips",
+  description:
+    "A practical guide to reducing slippage when buying ZEC: liquidity assessment, sizing, timing, and structured execution.",
+  lastModified: "2026-02-25",
+},
+  {
   slug: "how-to-buy-zcash-privately",
   title: "How to Buy Zcash (ZEC) Privately | A Practical Guide",
   description:
