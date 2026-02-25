@@ -1,12 +1,10 @@
-// app/sitemap.ts
-import type { MetadataRoute } from "next";
+import { MetadataRoute } from "next";
+
+const baseUrl = "https://zcash.ventures";
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const base = "https://zcash.ventures";
-  const now = new Date();
-
-  const routes = [
-    "/",
+  const staticPages = [
+    "",
     "/start",
     "/how-it-works",
     "/security",
@@ -21,10 +19,16 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/insights",
   ];
 
-  return routes.map((path) => ({
-    url: `${base}${path}`,
-    lastModified: now,
-    changeFrequency: path === "/" ? "weekly" : "monthly",
-    priority: path === "/" ? 1 : path === "/start" ? 0.95 : 0.7,
+  const insightPages = [
+    "/insights/what-is-a-zcash-otc-desk",
+    "/insights/otc-vs-exchange",
+    "/insights/market-impact-and-zec",
+  ];
+
+  return [...staticPages, ...insightPages].map((route) => ({
+    url: `${baseUrl}${route}`,
+    lastModified: new Date(),
+    changeFrequency: route.startsWith("/insights") ? "weekly" : "monthly",
+    priority: route === "" ? 1 : 0.7,
   }));
 }
