@@ -1,15 +1,58 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Container, H1, H2, Muted, Card } from "@/components/ui";
 
-export const metadata = {
-  title: "OTC vs Exchange",
+const CANONICAL = "https://zcash.ventures/insights/otc-vs-exchange";
+
+export const metadata: Metadata = {
+  title: "OTC vs Exchange for ZEC | Privacy, Slippage & Execution Risk",
   description:
-    "Structural differences between OTC execution and retail exchange flow for ZEC: signaling, liquidity, settlement control.",
+    "A practical comparison of OTC desks and public exchanges for Zcash (ZEC), focusing on privacy, slippage, and execution quality.",
+  alternates: { canonical: CANONICAL },
+  openGraph: {
+    type: "article",
+    url: CANONICAL,
+    title: "OTC vs Exchange for ZEC",
+    description:
+      "When structured OTC execution may be preferable to public order books for privacy and market-impact control.",
+    images: [{ url: "https://zcash.ventures/og-image.png" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "OTC vs Exchange for ZEC",
+    description: "Comparing privacy, liquidity depth, and slippage risk.",
+    images: ["https://zcash.ventures/og-image.jpg"],
+  },
 };
 
 export default function Page() {
   return (
     <Container className="py-12 md:py-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "Article",
+            headline: "OTC vs Exchange for ZEC: Structural Differences",
+            description:
+              "A practical comparison of OTC desks and public exchanges for Zcash (ZEC), focusing on privacy, slippage, and execution quality.",
+            datePublished: "2026-02-25",
+            dateModified: "2026-02-25",
+            author: { "@type": "Organization", name: "Zcash Ventures" },
+            publisher: {
+              "@type": "Organization",
+              name: "Zcash Ventures",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://zcash.ventures/og-image.jpg",
+              },
+            },
+            mainEntityOfPage: CANONICAL,
+          }),
+        }}
+      />
+
       <H1>OTC vs Exchange: Structural Differences</H1>
       <Muted className="mt-2">Different tools for different objectives.</Muted>
 
@@ -32,8 +75,11 @@ export default function Page() {
         </Card>
 
         <p className="text-xs text-muted">
-          Next: <Link className="hover:underline" href="/buy-zec-privately">buy ZEC privately</Link> ·{" "}
-          <Link className="hover:underline" href="/start">request a quote</Link>
+          Next:{" "}
+          <Link className="hover:underline" href="/buy-zec-privately">
+            buy ZEC privately
+          </Link>{" "}
+          · <Link className="hover:underline" href="/start">request a quote</Link>
         </p>
       </div>
     </Container>
