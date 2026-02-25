@@ -2,6 +2,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Badge, ButtonLink, Card, Container, H1, H2, H3, Muted, Pill } from "@/components/ui";
+import { insights } from "@/lib/insights";
 
 const TRUST_POINTS = [
   { title: "Off-Exchange Execution", desc: "Structured ZEC execution outside public order books." },
@@ -18,6 +19,8 @@ const USE_CASES = [
 ];
 
 export default function Page() {
+  const latest = insights.slice(0, 4); // simple: show first 4 from lib list
+
   return (
     <div>
       {/* HERO */}
@@ -137,6 +140,47 @@ export default function Page() {
         </Container>
       </section>
 
+      {/* LATEST INSIGHTS (SEO + internal links) */}
+      <section className="border-b border-line">
+        <Container className="py-12 md:py-16">
+          <div className="flex items-end justify-between gap-6">
+            <div className="max-w-2xl">
+              <H2>Latest Insights</H2>
+              <Muted className="mt-2">
+                Practical notes on OTC execution, slippage control, and Zcash privacy—built for buyers.
+              </Muted>
+            </div>
+            <div className="hidden md:block">
+              <Link href="/insights" className="text-sm text-muted hover:text-text">
+                View all →
+              </Link>
+            </div>
+          </div>
+
+          <div className="mt-8 grid gap-4 md:grid-cols-2">
+            {latest.map((post) => (
+              <Link key={post.slug} href={`/insights/${post.slug}`} className="block">
+                <Card>
+                  <H3>{post.title}</H3>
+                  <p className="mt-2 text-sm text-muted">{post.description}</p>
+                  <p className="mt-4 text-sm">Read →</p>
+                </Card>
+              </Link>
+            ))}
+          </div>
+
+          <div className="mt-8 flex flex-col gap-3 sm:flex-row">
+            <ButtonLink href="/insights">Browse Insights</ButtonLink>
+            <Link
+              href="/buy-zec-privately"
+              className="inline-flex items-center justify-center rounded-2xl border border-line px-5 py-3 text-sm font-medium hover:bg-card"
+            >
+              Buy Zcash (ZEC) privately →
+            </Link>
+          </div>
+        </Container>
+      </section>
+
       {/* LONG-FORM SEO BLOCK */}
       <section>
         <Container className="py-12 md:py-16">
@@ -192,6 +236,12 @@ export default function Page() {
                   <Pill>Discretion</Pill>
                   <Pill>Structure</Pill>
                 </div>
+                <p className="mt-4 text-sm text-muted">
+                  Read:{" "}
+                  <Link className="hover:underline" href="/insights/otc-vs-exchange">
+                    OTC vs Exchange
+                  </Link>
+                </p>
               </Card>
 
               <div className="relative overflow-hidden rounded-2xl border border-line">
