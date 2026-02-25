@@ -20,9 +20,9 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "/insights",
   ];
 
-  const insightRoutes = insights.map((post) => ({
-    url: `${baseUrl}/insights/${post.slug}`,
-    lastModified: new Date(post.lastModified),
+  const insightRoutes = insights.map((p) => ({
+    url: `${baseUrl}/insights/${p.slug}`,
+    lastModified: new Date(p.lastModified),
     changeFrequency: "weekly" as const,
     priority: 0.8,
   }));
@@ -31,7 +31,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...pages.map((route) => ({
       url: `${baseUrl}${route}`,
       lastModified: new Date(),
-      changeFrequency: "monthly" as const,
+      changeFrequency: route.startsWith("/insights") ? ("weekly" as const) : ("monthly" as const),
       priority: route === "" ? 1 : 0.7,
     })),
     ...insightRoutes,
