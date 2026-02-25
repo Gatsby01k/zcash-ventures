@@ -1,11 +1,29 @@
-// app/insights/page.tsx
+import type { Metadata } from "next";
 import Link from "next/link";
 import { Container, H1, Muted, Card, H2 } from "@/components/ui";
 
-export const metadata = {
-  title: "Insights",
+const CANONICAL = "https://zcash.ventures/insights";
+
+export const metadata: Metadata = {
+  title: "Insights | ZEC OTC Execution, Slippage & Private Brokerage",
   description:
     "Short, practical notes on ZEC OTC execution, market impact, and structured private brokerage workflows.",
+  alternates: { canonical: CANONICAL },
+  openGraph: {
+    type: "website",
+    url: CANONICAL,
+    title: "Insights",
+    description:
+      "Practical notes on structured ZEC execution: OTC vs exchange, market impact, and execution structure.",
+    images: [{ url: "https://zcash.ventures/og-image.jpg" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Insights",
+    description:
+      "Practical notes on structured ZEC execution: OTC, slippage, and market impact.",
+    images: ["https://zcash.ventures/og-image.png"],
+  },
 };
 
 const POSTS = [
@@ -29,6 +47,37 @@ const POSTS = [
 export default function Page() {
   return (
     <Container className="py-12 md:py-16">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "CollectionPage",
+            name: "Insights",
+            description:
+              "Short, practical notes on ZEC OTC execution, market impact, and structured private brokerage workflows.",
+            url: CANONICAL,
+            mainEntity: {
+              "@type": "ItemList",
+              itemListElement: POSTS.map((p, index) => ({
+                "@type": "ListItem",
+                position: index + 1,
+                url: `https://zcash.ventures${p.href}`,
+                name: p.title,
+              })),
+            },
+            publisher: {
+              "@type": "Organization",
+              name: "Zcash Ventures",
+              logo: {
+                "@type": "ImageObject",
+                url: "https://zcash.ventures/og-image.jpg",
+              },
+            },
+          }),
+        }}
+      />
+
       <H1>Insights</H1>
       <Muted className="mt-2">Practical notes on structured ZEC execution.</Muted>
 
