@@ -50,6 +50,13 @@ export const insights: Insight[] = [
   lastModified: "2026-02-25",
 },
   {
+  slug: "what-is-zodl",
+  title: "What Is ZODL? | The Long-Term Zcash (ZEC) Holder Mindset",
+  description:
+    "ZODL is a long-term ZEC holder mindset: disciplined accumulation, privacy-aware practices, and execution that minimizes signaling and slippage.",
+  lastModified: "2026-02-25",
+},
+  {
   slug: "how-crypto-otc-execution-works",
   title: "How Crypto OTC Execution Works | Quote, Settlement & Tranches",
   description:
