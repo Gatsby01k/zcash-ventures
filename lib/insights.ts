@@ -22,6 +22,20 @@ export const insights: Insight[] = [
     lastModified: "2026-02-25",
   },
   {
+  slug: "how-to-buy-zcash-privately",
+  title: "How to Buy Zcash (ZEC) Privately | A Practical Guide",
+  description:
+    "A practical guide to buying Zcash (ZEC) privately while reducing public order book exposure, slippage, and unnecessary signaling.",
+  lastModified: "2026-02-25",
+},
+{
+  slug: "zcash-vs-monero-privacy",
+  title: "Zcash vs Monero Privacy | Practical Differences for Buyers",
+  description:
+    "A practical comparison of Zcash (ZEC) and Monero (XMR): privacy models, tradeoffs, and execution implications for buyers.",
+  lastModified: "2026-02-25",
+},
+  {
     slug: "market-impact-and-zec",
     title: "Market Impact and ZEC: How to Avoid Slippage on Larger Orders",
     description:
