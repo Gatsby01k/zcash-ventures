@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Container } from "@/components/ui";
 
 const nav = [
+  { href: "/insights", label: "Insights" },   // ← добавлено
   { href: "/start", label: "Start" },
   { href: "/how-it-works", label: "How it works" },
   { href: "/security", label: "Security" },
