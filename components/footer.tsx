@@ -30,8 +30,8 @@ const COLS = [
 
 // ✅ Поменяй на реальные ссылки
 const SOCIALS = [
-  { href: "https://www.linkedin.com/company/your-company", label: "LinkedIn" },
-  { href: "https://t.me/yourtelegram", label: "Telegram" },
+  { href: "https://www.linkedin.com/company/zcash-ventures", label: "LinkedIn" },
+  { href: "https://t.me/zcashventures", label: "Telegram" },
 ];
 
 function IconLinkedIn() {
