@@ -37,10 +37,11 @@ function SegButton({
       onClick={onClick}
       className={cx(
         "h-10 rounded-xl px-3 text-sm transition",
-        "border border-line",
+        "border border-line/70",
+        "shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]",
         active
-          ? "bg-card text-text shadow-[0_0_0_1px_rgba(255,255,255,0.06)]"
-          : "bg-transparent text-muted hover:text-text hover:bg-card/40"
+          ? "bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(255,255,255,0.03))] text-text"
+          : "bg-[rgba(0,0,0,0.18)] text-muted hover:text-text hover:bg-[rgba(255,255,255,0.04)]"
       )}
     >
       {children}
@@ -101,13 +102,22 @@ export function StartForm() {
     }
   }
 
-  const inputBase =
-    "mt-2 h-11 w-full rounded-xl border border-line bg-bg px-3 text-sm outline-none " +
-    "focus:ring-2 focus:ring-accent/30 focus:border-accent/60";
+  // Inset / fintech input style
+  const inputBase = cx(
+    "mt-2 h-11 w-full rounded-2xl px-4 text-sm outline-none",
+    "border border-line/70",
+    "bg-[rgba(0,0,0,0.25)]",
+    "shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]",
+    "focus:border-accent/60 focus:ring-2 focus:ring-accent/30"
+  );
 
-  const textAreaBase =
-    "mt-2 w-full rounded-xl border border-line bg-bg px-3 py-2 text-sm outline-none " +
-    "focus:ring-2 focus:ring-accent/30 focus:border-accent/60";
+  const textAreaBase = cx(
+    "mt-2 w-full rounded-2xl px-4 py-3 text-sm outline-none",
+    "border border-line/70",
+    "bg-[rgba(0,0,0,0.25)]",
+    "shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]",
+    "focus:border-accent/60 focus:ring-2 focus:ring-accent/30"
+  );
 
   return (
     <form onSubmit={onSubmit} className="space-y-5">
@@ -122,10 +132,12 @@ export function StartForm() {
           inputMode="email"
           autoComplete="email"
         />
-        <div className="mt-1 text-xs text-muted">We reply by email with an exact written quote.</div>
+        <div className="mt-1 text-xs text-muted">
+          We reply by email with an exact written quote.
+        </div>
       </div>
 
-      {/* Honeypot field (hidden from humans) */}
+      {/* Honeypot (hidden) */}
       <div className="hidden">
         <label>Website</label>
         <input value={hp} onChange={(e) => setHp(e.target.value)} />
@@ -138,7 +150,11 @@ export function StartForm() {
           <label className="text-sm font-semibold">Amount</label>
           <div className="mt-2 grid grid-cols-2 gap-2">
             {AMOUNTS.map((a) => (
-              <SegButton key={a.value} active={amount === a.value} onClick={() => setAmount(a.value)}>
+              <SegButton
+                key={a.value}
+                active={amount === a.value}
+                onClick={() => setAmount(a.value)}
+              >
                 {a.label}
               </SegButton>
             ))}
@@ -161,7 +177,11 @@ export function StartForm() {
           <label className="text-sm font-semibold">Payment</label>
           <div className="mt-2 grid grid-cols-3 gap-2">
             {PAYMENT.map((p) => (
-              <SegButton key={p.value} active={payment === p.value} onClick={() => setPayment(p.value)}>
+              <SegButton
+                key={p.value}
+                active={payment === p.value}
+                onClick={() => setPayment(p.value)}
+              >
                 {p.label}
               </SegButton>
             ))}
@@ -189,14 +209,14 @@ export function StartForm() {
           <span className="text-xs text-muted">optional</span>
         </div>
         <textarea
-          className={cx(textAreaBase, "min-h-[88px]")}
+          className={cx(textAreaBase, "min-h-[92px]")}
           placeholder="If paying in crypto: which asset (USDT/USDC/BTC)? Any urgency? New to ZEC and need wallet help?"
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
         />
       </div>
 
-      {/* PGP collapsible */}
+      {/* PGP */}
       <div>
         <button
           type="button"
@@ -216,7 +236,7 @@ export function StartForm() {
         )}
       </div>
 
-      {/* Submit */}
+      {/* CTA */}
       <div>
         <button
           type="submit"
@@ -224,7 +244,9 @@ export function StartForm() {
           className={cx(
             "h-12 w-full rounded-2xl px-4 text-sm font-semibold transition",
             "bg-accent text-bg",
-            "hover:opacity-95 disabled:opacity-60"
+            "shadow-[0_18px_60px_-28px_rgba(90,220,255,0.9)]",
+            "hover:-translate-y-[1px] hover:opacity-95 active:translate-y-0",
+            "disabled:opacity-60 disabled:hover:translate-y-0"
           )}
         >
           {status === "idle" && "Get my quote"}
@@ -234,20 +256,17 @@ export function StartForm() {
         </button>
 
         <div className="mt-2 text-center text-xs text-muted">
-          You’ll receive an exact quote in writing before any payment.
+          You’ll receive exact terms in writing before any payment.
         </div>
       </div>
 
-      {/* Success box */}
+      {/* Success */}
       {status === "sent" && (
-        <div className="rounded-2xl border border-line bg-bg p-4 text-sm">
+        <div className="rounded-3xl border border-line/70 bg-[rgba(0,0,0,0.18)] p-4 text-sm shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
           <div className="font-semibold text-text">Request received.</div>
           <div className="mt-1 text-muted">
             Next: check your inbox for the written quote + payment details. Before paying, read the{" "}
-            <a
-              className="underline decoration-line underline-offset-4 hover:decoration-accent"
-              href="/security"
-            >
+            <a className="underline decoration-line underline-offset-4 hover:decoration-accent" href="/security">
               security checklist
             </a>
             .
@@ -255,9 +274,9 @@ export function StartForm() {
         </div>
       )}
 
-      {/* Error hint */}
+      {/* Error */}
       {status === "error" && (
-        <div className="rounded-2xl border border-line bg-bg p-4 text-sm text-muted">
+        <div className="rounded-3xl border border-line/70 bg-[rgba(0,0,0,0.18)] p-4 text-sm text-muted shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
           Couldn’t submit. Try again — or use{" "}
           <a className="underline decoration-line underline-offset-4 hover:decoration-accent" href="/contact">
             contact
