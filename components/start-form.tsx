@@ -1,32 +1,68 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 
 type Status = "idle" | "sending" | "sent" | "error";
 
 const AMOUNTS = [
-  { value: "1000-5000", label: "$1,000 — $5,000" },
-  { value: "5000-20000", label: "$5,000 — $20,000" },
-  { value: "20000-100000", label: "$20,000 — $100,000" },
-  { value: "100000+", label: "$100,000+" },
-  { value: "custom", label: "Custom" }
+  { value: "1000-5000", label: "$1k–$5k" },
+  { value: "5000-20000", label: "$5k–$20k" },
+  { value: "20000-100000", label: "$20k–$100k" },
+  { value: "100000+", label: "$100k+" },
+  { value: "custom", label: "Custom" },
 ] as const;
 
 const PAYMENT = [
-  { value: "fiat", label: "Fiat" },
+  { value: "both", label: "Either" },
   { value: "crypto", label: "Crypto" },
-  { value: "both", label: "Either" }
+  { value: "fiat", label: "Fiat" },
 ] as const;
+
+function cx(...xs: Array<string | false | null | undefined>) {
+  return xs.filter(Boolean).join(" ");
+}
+
+function SegButton({
+  active,
+  children,
+  onClick,
+}: {
+  active: boolean;
+  children: React.ReactNode;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={cx(
+        "h-10 rounded-xl px-3 text-sm transition",
+        "border border-line",
+        active
+          ? "bg-card text-text shadow-[0_0_0_1px_rgba(255,255,255,0.06)]"
+          : "bg-transparent text-muted hover:text-text hover:bg-card/40"
+      )}
+    >
+      {children}
+    </button>
+  );
+}
 
 export function StartForm() {
   const [status, setStatus] = useState<Status>("idle");
+
   const [email, setEmail] = useState("");
   const [amount, setAmount] = useState<(typeof AMOUNTS)[number]["value"]>("1000-5000");
   const [customAmount, setCustomAmount] = useState("");
+
   const [payment, setPayment] = useState<(typeof PAYMENT)[number]["value"]>("both");
+
   const [country, setCountry] = useState("");
   const [notes, setNotes] = useState("");
+
+  const [showPgp, setShowPgp] = useState(false);
   const [pgp, setPgp] = useState("");
+
   const [hp, setHp] = useState(""); // honeypot
 
   const canSend = useMemo(() => {
@@ -38,7 +74,8 @@ export function StartForm() {
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
-    if (!canSend) return;
+    if (!canSend || status === "sending" || status === "sent") return;
+
     setStatus("sending");
 
     try {
@@ -52,9 +89,9 @@ export function StartForm() {
           payment,
           country,
           notes,
-          pgp,
-          hp
-        })
+          pgp: showPgp ? pgp : "",
+          hp,
+        }),
       });
 
       if (!res.ok) throw new Error("Request failed");
@@ -64,19 +101,28 @@ export function StartForm() {
     }
   }
 
+  const inputBase =
+    "mt-2 h-11 w-full rounded-xl border border-line bg-bg px-3 text-sm outline-none " +
+    "focus:ring-2 focus:ring-accent/30 focus:border-accent/60";
+
+  const textAreaBase =
+    "mt-2 w-full rounded-xl border border-line bg-bg px-3 py-2 text-sm outline-none " +
+    "focus:ring-2 focus:ring-accent/30 focus:border-accent/60";
+
   return (
-    <form onSubmit={onSubmit} className="space-y-4">
+    <form onSubmit={onSubmit} className="space-y-5">
+      {/* Email */}
       <div>
         <label className="text-sm font-semibold">Email</label>
         <input
-          className="mt-2 w-full rounded-xl border border-line bg-bg px-3 py-2 text-sm outline-none focus:border-accent"
+          className={inputBase}
           placeholder="start@yourdomain.com"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           inputMode="email"
           autoComplete="email"
         />
-        <div className="mt-1 text-xs text-muted">We reply in writing with an exact quote.</div>
+        <div className="mt-1 text-xs text-muted">We reply by email with an exact written quote.</div>
       </div>
 
       {/* Honeypot field (hidden from humans) */}
@@ -85,50 +131,50 @@ export function StartForm() {
         <input value={hp} onChange={(e) => setHp(e.target.value)} />
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2">
+      {/* Amount + Payment */}
+      <div className="grid gap-5 md:grid-cols-2">
+        {/* Amount */}
         <div>
           <label className="text-sm font-semibold">Amount</label>
-          <select
-            className="mt-2 w-full rounded-xl border border-line bg-bg px-3 py-2 text-sm outline-none focus:border-accent"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value as any)}
-          >
+          <div className="mt-2 grid grid-cols-2 gap-2">
             {AMOUNTS.map((a) => (
-              <option key={a.value} value={a.value}>
+              <SegButton key={a.value} active={amount === a.value} onClick={() => setAmount(a.value)}>
                 {a.label}
-              </option>
+              </SegButton>
             ))}
-          </select>
+          </div>
+
           {amount === "custom" && (
             <input
-              className="mt-2 w-full rounded-xl border border-line bg-bg px-3 py-2 text-sm outline-none focus:border-accent"
-              placeholder="e.g. $37,500"
+              className={cx(inputBase, "mt-2")}
+              placeholder="e.g. $37,500 or 500 ZEC"
               value={customAmount}
               onChange={(e) => setCustomAmount(e.target.value)}
             />
           )}
+
+          <div className="mt-1 text-xs text-muted">Pick a range (or enter a custom size).</div>
         </div>
 
+        {/* Payment */}
         <div>
           <label className="text-sm font-semibold">Payment</label>
-          <select
-            className="mt-2 w-full rounded-xl border border-line bg-bg px-3 py-2 text-sm outline-none focus:border-accent"
-            value={payment}
-            onChange={(e) => setPayment(e.target.value as any)}
-          >
+          <div className="mt-2 grid grid-cols-3 gap-2">
             {PAYMENT.map((p) => (
-              <option key={p.value} value={p.value}>
+              <SegButton key={p.value} active={payment === p.value} onClick={() => setPayment(p.value)}>
                 {p.label}
-              </option>
+              </SegButton>
             ))}
-          </select>
+          </div>
+          <div className="mt-1 text-xs text-muted">Select your preferred settlement route.</div>
         </div>
       </div>
 
+      {/* Country */}
       <div>
         <label className="text-sm font-semibold">Country / Region</label>
         <input
-          className="mt-2 w-full rounded-xl border border-line bg-bg px-3 py-2 text-sm outline-none focus:border-accent"
+          className={inputBase}
           placeholder="e.g. Ukraine / EU / UAE"
           value={country}
           onChange={(e) => setCountry(e.target.value)}
@@ -136,49 +182,96 @@ export function StartForm() {
         />
       </div>
 
+      {/* Notes */}
       <div>
-        <label className="text-sm font-semibold">Notes (optional)</label>
+        <div className="flex items-center justify-between">
+          <label className="text-sm font-semibold">Notes</label>
+          <span className="text-xs text-muted">optional</span>
+        </div>
         <textarea
-          className="mt-2 min-h-[90px] w-full rounded-xl border border-line bg-bg px-3 py-2 text-sm outline-none focus:border-accent"
-          placeholder="If paying in crypto: which asset? If new: do you need wallet setup help?"
+          className={cx(textAreaBase, "min-h-[88px]")}
+          placeholder="If paying in crypto: which asset (USDT/USDC/BTC)? Any urgency? New to ZEC and need wallet help?"
           value={notes}
           onChange={(e) => setNotes(e.target.value)}
         />
       </div>
 
+      {/* PGP collapsible */}
       <div>
-        <label className="text-sm font-semibold">PGP public key (optional)</label>
-        <textarea
-          className="mt-2 min-h-[90px] w-full rounded-xl border border-line bg-bg px-3 py-2 text-sm font-mono text-xs outline-none focus:border-accent"
-          placeholder="Paste your PGP public key if you want encrypted replies."
-          value={pgp}
-          onChange={(e) => setPgp(e.target.value)}
-        />
+        <button
+          type="button"
+          onClick={() => setShowPgp((v) => !v)}
+          className="text-sm text-muted underline decoration-line underline-offset-4 hover:text-text hover:decoration-accent"
+        >
+          {showPgp ? "Hide PGP public key" : "Add PGP public key (optional)"}
+        </button>
+
+        {showPgp && (
+          <textarea
+            className={cx(textAreaBase, "mt-2 min-h-[120px] font-mono text-xs")}
+            placeholder="Paste your PGP public key for encrypted replies."
+            value={pgp}
+            onChange={(e) => setPgp(e.target.value)}
+          />
+        )}
       </div>
 
-      <button
-        type="submit"
-        disabled={!canSend || status === "sending" || status === "sent"}
-        className="inline-flex w-full items-center justify-center rounded-xl bg-accent px-4 py-3 text-sm font-semibold text-bg disabled:opacity-60"
-      >
-        {status === "idle" && "Get my quote"}
-        {status === "sending" && "Sending…"}
-        {status === "sent" && "Submitted ✓"}
-        {status === "error" && "Error — try again"}
-      </button>
+      {/* Submit */}
+      <div>
+        <button
+          type="submit"
+          disabled={!canSend || status === "sending" || status === "sent"}
+          className={cx(
+            "h-12 w-full rounded-2xl px-4 text-sm font-semibold transition",
+            "bg-accent text-bg",
+            "hover:opacity-95 disabled:opacity-60"
+          )}
+        >
+          {status === "idle" && "Get my quote"}
+          {status === "sending" && "Sending…"}
+          {status === "sent" && "Submitted ✓"}
+          {status === "error" && "Error — try again"}
+        </button>
 
+        <div className="mt-2 text-center text-xs text-muted">
+          You’ll receive an exact quote in writing before any payment.
+        </div>
+      </div>
+
+      {/* Success box */}
       {status === "sent" && (
-        <div className="rounded-xl border border-line bg-bg p-4 text-sm text-muted">
-          <div className="font-semibold text-text">Submitted.</div>
-          <div className="mt-1">
-            Next: watch your inbox for the written quote + payment details. Before paying, read the{" "}
-            <a className="underline decoration-line underline-offset-4 hover:decoration-accent" href="/security">security checklist</a>.
+        <div className="rounded-2xl border border-line bg-bg p-4 text-sm">
+          <div className="font-semibold text-text">Request received.</div>
+          <div className="mt-1 text-muted">
+            Next: check your inbox for the written quote + payment details. Before paying, read the{" "}
+            <a
+              className="underline decoration-line underline-offset-4 hover:decoration-accent"
+              href="/security"
+            >
+              security checklist
+            </a>
+            .
           </div>
         </div>
       )}
 
+      {/* Error hint */}
+      {status === "error" && (
+        <div className="rounded-2xl border border-line bg-bg p-4 text-sm text-muted">
+          Couldn’t submit. Try again — or use{" "}
+          <a className="underline decoration-line underline-offset-4 hover:decoration-accent" href="/contact">
+            contact
+          </a>
+          .
+        </div>
+      )}
+
       <p className="text-xs text-muted">
-        By submitting you confirm you’ve read the <a className="underline decoration-line underline-offset-4 hover:decoration-accent" href="/disclaimer">disclaimer</a>.
+        By submitting you confirm you’ve read the{" "}
+        <a className="underline decoration-line underline-offset-4 hover:decoration-accent" href="/disclaimer">
+          disclaimer
+        </a>
+        .
       </p>
     </form>
   );
