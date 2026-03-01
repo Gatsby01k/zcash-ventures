@@ -24,7 +24,6 @@ export const metadata: Metadata = {
     "ZEC OTC desk",
     "buy ZEC privately",
     "sell ZEC OTC",
-    "ZOdl",
     "Zcash broker",
     "discreet crypto broker",
     "non-custodial brokerage",
@@ -95,7 +94,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className="bg-bg text-text antialiased">
+      <body className="bg-bg text-text antialiased overflow-x-hidden">
         {/* GA4 */}
         <Script
           src="https://www.googletagmanager.com/gtag/js?id=G-MTT4RRVC0Y"
@@ -110,28 +109,28 @@ export default function RootLayout({
           `}
         </Script>
 
-        {/* Premium app background */}
-        <div className="relative min-h-screen flex flex-col">
+        {/* ✅ FIXED premium background (does NOT create scroll) */}
+        <div className="pointer-events-none fixed inset-0 -z-10">
           {/* Grid */}
-          <div className="pointer-events-none absolute inset-0 opacity-[0.32] [background-image:linear-gradient(to_right,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.06)_1px,transparent_1px)] [background-size:64px_64px]" />
+          <div className="absolute inset-0 opacity-[0.32] [background-image:linear-gradient(to_right,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.06)_1px,transparent_1px)] [background-size:64px_64px]" />
 
           {/* Top vignette */}
-          <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.07),transparent_60%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,rgba(255,255,255,0.07),transparent_60%)]" />
 
           {/* Glows */}
-          <div className="pointer-events-none absolute -top-36 left-1/2 h-[760px] w-[760px] -translate-x-1/2 rounded-full bg-accent/10 blur-[130px]" />
-          <div className="pointer-events-none absolute top-[28vh] -right-56 h-[680px] w-[680px] rounded-full bg-white/4 blur-[150px]" />
-          <div className="pointer-events-none absolute -bottom-72 -left-72 h-[780px] w-[780px] rounded-full bg-white/3 blur-[170px]" />
+          <div className="absolute -top-36 left-1/2 h-[760px] w-[760px] -translate-x-1/2 rounded-full bg-accent/10 blur-[130px]" />
+          <div className="absolute top-[28vh] -right-56 h-[680px] w-[680px] rounded-full bg-white/4 blur-[150px]" />
+          <div className="absolute -bottom-72 -left-72 h-[780px] w-[780px] rounded-full bg-white/3 blur-[170px]" />
 
           {/* Noise overlay */}
-          <div className="noise pointer-events-none absolute inset-0 opacity-[0.055]" />
+          <div className="noise absolute inset-0 opacity-[0.055]" />
+        </div>
 
-          {/* Content */}
-          <div className="relative z-10 flex min-h-screen flex-col">
-            <Nav />
-            <main className="flex-1">{children}</main>
-            <Footer />
-          </div>
+        {/* Content */}
+        <div className="relative min-h-screen flex flex-col">
+          <Nav />
+          <main className="flex-1">{children}</main>
+          <Footer />
         </div>
 
         {/* Schema.org for SEO trust */}
