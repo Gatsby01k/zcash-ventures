@@ -24,6 +24,7 @@ export const metadata: Metadata = {
     "ZEC OTC desk",
     "buy ZEC privately",
     "sell ZEC OTC",
+    "ZOdl",
     "Zcash broker",
     "discreet crypto broker",
     "non-custodial brokerage",
@@ -110,7 +111,7 @@ export default function RootLayout({
         </Script>
 
         {/* Premium app background */}
-        <div className="relative min-h-screen">
+        <div className="relative min-h-screen flex flex-col">
           {/* Grid */}
           <div className="pointer-events-none absolute inset-0 opacity-[0.32] [background-image:linear-gradient(to_right,rgba(255,255,255,0.06)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.06)_1px,transparent_1px)] [background-size:64px_64px]" />
 
@@ -122,13 +123,13 @@ export default function RootLayout({
           <div className="pointer-events-none absolute top-[28vh] -right-56 h-[680px] w-[680px] rounded-full bg-white/4 blur-[150px]" />
           <div className="pointer-events-none absolute -bottom-72 -left-72 h-[780px] w-[780px] rounded-full bg-white/3 blur-[170px]" />
 
-          {/* Noise overlay (class defined in globals.css) */}
+          {/* Noise overlay */}
           <div className="noise pointer-events-none absolute inset-0 opacity-[0.055]" />
 
           {/* Content */}
-          <div className="relative z-10">
+          <div className="relative z-10 flex min-h-screen flex-col">
             <Nav />
-            <main>{children}</main>
+            <main className="flex-1">{children}</main>
             <Footer />
           </div>
         </div>
