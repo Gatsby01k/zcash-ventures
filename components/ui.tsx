@@ -20,26 +20,31 @@ export function Container({ className, ...props }: DivProps) {
 }
 
 /**
- * Premium “glass” card:
- * - subtle gradient fill
- * - top highlight (radial)
- * - deeper shadow
- * - softer border
+ * Premium “glass” card (MAX):
+ * - gradient fill + top highlight
+ * - inner edge
+ * - hover lift
+ * - ✅ default padding restored (fixes “flat strips” on pages)
  */
 export function Card({ className, ...props }: DivProps) {
   return (
     <div
       {...props}
       className={cx(
-        "relative overflow-hidden rounded-3xl",
+        "group relative overflow-hidden rounded-3xl",
         "border border-line/70",
-        "bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))]",
-        "shadow-[0_18px_70px_-40px_rgba(0,0,0,0.9)]",
+        "bg-[linear-gradient(180deg,rgba(255,255,255,0.065),rgba(255,255,255,0.02))]",
+        "shadow-[0_18px_70px_-40px_rgba(0,0,0,0.92)]",
         "backdrop-blur",
+        // ✅ default padding
+        "p-5 md:p-6",
         // soft top highlight
-        "before:pointer-events-none before:absolute before:inset-0 before:bg-[radial-gradient(1200px_320px_at_20%_0%,rgba(255,255,255,0.09),transparent_60%)]",
-        // very subtle inner edge
-        "after:pointer-events-none after:absolute after:inset-0 after:rounded-3xl after:shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]",
+        "before:pointer-events-none before:absolute before:inset-0 before:bg-[radial-gradient(1200px_340px_at_20%_0%,rgba(255,255,255,0.10),transparent_60%)]",
+        // subtle inner edge
+        "after:pointer-events-none after:absolute after:inset-0 after:rounded-3xl after:shadow-[inset_0_1px_0_rgba(255,255,255,0.07)]",
+        // hover premium
+        "transition will-change-transform",
+        "hover:-translate-y-[2px] hover:border-white/10 hover:bg-[linear-gradient(180deg,rgba(255,255,255,0.075),rgba(255,255,255,0.02))]",
         className
       )}
     />
@@ -167,13 +172,15 @@ export function ButtonLink({
   const base =
     "relative inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-semibold transition";
   const solid = cx(
-    "bg-accent text-bg",
-    "shadow-[0_18px_60px_-28px_rgba(90,220,255,0.9)]",
-    "hover:opacity-95 hover:-translate-y-[1px] active:translate-y-0"
+    "text-bg",
+    "bg-[linear-gradient(135deg,rgba(90,215,255,1),rgba(90,215,255,0.72))]",
+    "shadow-[0_18px_60px_-28px_rgba(90,215,255,0.95)]",
+    "hover:-translate-y-[1px] hover:opacity-95 active:translate-y-0"
   );
   const ghost = cx(
-    "border border-line/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.015))]",
-    "text-text hover:bg-card/40",
+    "border border-line/70",
+    "bg-[linear-gradient(180deg,rgba(255,255,255,0.055),rgba(255,255,255,0.015))]",
+    "text-text hover:bg-[rgba(255,255,255,0.04)]",
     "shadow-[0_14px_40px_-28px_rgba(0,0,0,0.9)]"
   );
 
