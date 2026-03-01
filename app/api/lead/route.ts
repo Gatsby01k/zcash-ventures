@@ -1,3 +1,4 @@
+// app/api/lead/route.ts
 import { NextResponse } from "next/server";
 
 type Lead = {
@@ -24,7 +25,8 @@ function ipFrom(req: Request) {
 
 // In-memory limiter (works per runtime instance). For production, swap to Upstash/Redis.
 // Still useful to cut basic spam.
-const bucket: Map<string, { n: number; ts: number }> = (globalThis as any).__leadBucket || new Map();
+const bucket: Map<string, { n: number; ts: number }> =
+  (globalThis as any).__leadBucket || new Map();
 (globalThis as any).__leadBucket = bucket;
 
 function rateLimit(key: string, limit = 10, windowMs = 60_000) {
@@ -72,7 +74,10 @@ export async function POST(req: Request) {
   const from = process.env.LEAD_FROM_EMAIL || "";
   const resendKey = process.env.RESEND_API_KEY || "";
 
-  const subject = `[zcash.ventures] New quote request — ${lead.amount}${lead.amount === "custom" ? ` (${lead.customAmount || ""})` : ""}`;
+  const subject =
+    `[zcash.ventures] New quote request — ${lead.amount}` +
+    (lead.amount === "custom" ? ` (${lead.customAmount || ""})` : "");
+
   const text = [
     "New quote request",
     "-----------------",
@@ -83,37 +88,45 @@ export async function POST(req: Request) {
     lead.notes ? `Notes: ${lead.notes}` : "Notes: (none)",
     lead.pgp ? `PGP: provided (${lead.pgp.length} chars)` : "PGP: (none)",
     `IP: ${ip}`,
-    `Time (UTC): ${new Date().toISOString()}`
+    `Time (UTC): ${new Date().toISOString()}`,
   ].join("\n");
 
-  // Optional webhook (e.g., Slack/Discord/CRM)
+  // Optional webhook (e.g., Telegram/Slack/Discord/CRM)
   const webhook = process.env.LEAD_WEBHOOK_URL || "";
   if (webhook) {
     fetch(webhook, {
       method: "POST",
-      headers: { "content-type": "application/json" },
-      body: JSON.stringify({ subject, text, lead })
+      headers: {
+        "content-type": "application/json",
+        // ✅ protect /api/telegram from direct calls
+        "x-webhook-secret": process.env.TELEGRAM_WEBHOOK_SECRET || "",
+      },
+      body: JSON.stringify({ subject, text, lead }),
     }).catch(() => {});
   }
 
+  // Email via Resend (optional)
   if (resendKey && to && from) {
     const r = await fetch("https://api.resend.com/emails", {
       method: "POST",
       headers: {
-        "Authorization": `Bearer ${resendKey}`,
-        "Content-Type": "application/json"
+        Authorization: `Bearer ${resendKey}`,
+        "Content-Type": "application/json",
       },
       body: JSON.stringify({
         from,
         to: [to],
         subject,
-        text
-      })
+        text,
+      }),
     });
 
     if (!r.ok) {
       const err = await r.text().catch(() => "");
-      return NextResponse.json({ ok: false, error: "Email send failed", detail: err }, { status: 500 });
+      return NextResponse.json(
+        { ok: false, error: "Email send failed", detail: err },
+        { status: 500 }
+      );
     }
   }
 
