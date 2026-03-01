@@ -11,14 +11,28 @@ const CHIPS = [
 ];
 
 const NEXT = [
-  { t: "Quote + route confirmed", d: "We reply with exact price, fees, and settlement steps." },
-  { t: "You send payment", d: "Only after you confirm the written quote." },
-  { t: "You receive ZEC", d: "Delivery to your address (shielded supported)." },
+  {
+    t: "We confirm route + quote",
+    d: "You get exact pricing, fees, and settlement steps in writing.",
+  },
+  {
+    t: "You confirm and send payment",
+    d: "No payment is requested before you approve the written terms.",
+  },
+  {
+    t: "You receive ZEC",
+    d: "Delivery to your address (shielded supported where applicable).",
+  },
+  {
+    t: "You receive the onboarding checklist",
+    d: "Optional guidance: wallet setup, shielding, and safe handling.",
+  },
 ];
 
 export default function StartPage() {
   return (
     <Container className="py-10 md:py-14">
+      {/* Chips */}
       <div className="mb-6 flex flex-wrap gap-2">
         {CHIPS.map((x) => (
           <Pill key={x}>{x}</Pill>
@@ -26,20 +40,22 @@ export default function StartPage() {
       </div>
 
       <div className="grid grid-cols-1 gap-8 md:grid-cols-12">
-        {/* Left */}
+        {/* Left column */}
         <div className="md:col-span-5">
           <H1>Get your quote</H1>
           <Muted className="mt-3">
-            Submit a request and we’ll reply with an exact quote and payment details.
+            Submit a request and we’ll reply with the exact quote and payment details.
             Everything is confirmed in writing before you pay.
           </Muted>
 
+          {/* What happens next */}
           <Card className="mt-6 p-6">
             <H2 className="text-base">What happens next</H2>
+
             <div className="mt-4 space-y-3">
               {NEXT.map((s, i) => (
                 <div key={s.t} className="flex gap-3">
-                  <div className="mt-0.5 h-6 w-6 rounded-full border border-line text-center text-sm text-muted">
+                  <div className="mt-0.5 flex h-6 w-6 items-center justify-center rounded-full border border-line text-xs text-muted">
                     {i + 1}
                   </div>
                   <div>
@@ -52,31 +68,68 @@ export default function StartPage() {
 
             <div className="mt-5 text-sm text-muted">
               Before paying, read{" "}
-              <Link className="underline underline-offset-4" href="/security">
+              <Link className="underline decoration-line underline-offset-4 hover:decoration-accent" href="/security">
                 Security
               </Link>
               .
             </div>
           </Card>
 
+          {/* Quick notes */}
           <Card className="mt-4 p-6">
             <H2 className="text-base">Quick notes</H2>
             <ul className="mt-3 space-y-2 text-sm text-muted">
-              <li>• If paying in crypto, mention the asset (USDT/USDC/BTC/etc.).</li>
-              <li>• If you want encrypted replies, add your PGP public key.</li>
-              <li>• Large orders can be structured in tranches.</li>
+              <li>• If paying in crypto, specify the asset (USDT/USDC/BTC/etc.).</li>
+              <li>• If you want encrypted replies, add a PGP public key.</li>
+              <li>• Larger orders can be executed in tranches to reduce impact.</li>
             </ul>
+
+            <div className="mt-4 flex flex-wrap gap-3 text-sm">
+              <Link
+                className="underline decoration-line underline-offset-4 hover:decoration-accent"
+                href="/how-it-works"
+              >
+                How it works
+              </Link>
+              <span className="text-muted">·</span>
+              <Link
+                className="underline decoration-line underline-offset-4 hover:decoration-accent"
+                href="/fees"
+              >
+                Quote terms
+              </Link>
+              <span className="text-muted">·</span>
+              <Link
+                className="underline decoration-line underline-offset-4 hover:decoration-accent"
+                href="/faq"
+              >
+                FAQ
+              </Link>
+            </div>
           </Card>
+
+          {/* Trust mini */}
+          <div className="mt-6 text-xs text-muted">
+            Privacy note: never share seed phrases. We only need your receiving address after terms are confirmed.
+          </div>
         </div>
 
-        {/* Right */}
+        {/* Right column (form card) */}
         <div className="md:col-span-7">
           <Card className="p-6 md:p-7">
             <div className="mb-4">
-              <div className="text-sm font-medium">Request form</div>
-              <div className="text-sm text-muted">We respond by email with an exact quote.</div>
+              <div className="text-sm font-semibold">Request form</div>
+              <div className="mt-1 text-sm text-muted">
+                We respond by email with an exact quote. No payment before written confirmation.
+              </div>
             </div>
+
             <StartForm />
+
+            {/* tiny footer */}
+            <div className="mt-6 border-t border-line pt-4 text-xs text-muted">
+              Operational: Use an email you can access. For encrypted replies, add PGP.
+            </div>
           </Card>
         </div>
       </div>
