@@ -13,3 +13,12 @@ body { background: theme(colors.bg); color: theme(colors.text); }
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='220' height='220' filter='url(%23n)' opacity='.55'/%3E%3C/svg%3E");
   background-repeat: repeat;
 }
+
+html {
+  scroll-behavior: smooth;
+}
+
+/* Offset anchors for sticky nav (~64px) */
+:root {
+  scroll-padding-top: 88px;
+}
