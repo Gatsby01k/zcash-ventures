@@ -19,12 +19,27 @@ export function Container({ className, ...props }: DivProps) {
   );
 }
 
+/**
+ * Premium “glass” card:
+ * - subtle gradient fill
+ * - top highlight (radial)
+ * - deeper shadow
+ * - softer border
+ */
 export function Card({ className, ...props }: DivProps) {
   return (
     <div
       {...props}
       className={cx(
-        "rounded-2xl border border-line bg-card p-5 shadow-sm",
+        "relative overflow-hidden rounded-3xl",
+        "border border-line/70",
+        "bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))]",
+        "shadow-[0_18px_70px_-40px_rgba(0,0,0,0.9)]",
+        "backdrop-blur",
+        // soft top highlight
+        "before:pointer-events-none before:absolute before:inset-0 before:bg-[radial-gradient(1200px_320px_at_20%_0%,rgba(255,255,255,0.09),transparent_60%)]",
+        // very subtle inner edge
+        "after:pointer-events-none after:absolute after:inset-0 after:rounded-3xl after:shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]",
         className
       )}
     />
@@ -36,7 +51,11 @@ export function Pill({ className, ...props }: DivProps) {
     <div
       {...props}
       className={cx(
-        "inline-flex items-center rounded-full border border-line bg-card px-3 py-1 text-xs text-muted",
+        "inline-flex items-center rounded-full px-3 py-1 text-xs",
+        "border border-line/70 text-muted",
+        "bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))]",
+        "shadow-[0_10px_30px_-22px_rgba(0,0,0,0.9)]",
+        "backdrop-blur",
         className
       )}
     />
@@ -53,13 +72,16 @@ export function Badge({
       ? "border-good/40 text-good"
       : tone === "warn"
       ? "border-warn/40 text-warn"
-      : "border-line text-text";
+      : "border-line/70 text-text";
 
   return (
     <div
       {...props}
       className={cx(
-        "inline-flex items-center rounded-full border bg-card px-2.5 py-1 text-[11px] font-semibold",
+        "inline-flex items-center rounded-full border px-2.5 py-1 text-[11px] font-semibold",
+        "bg-[linear-gradient(180deg,rgba(255,255,255,0.06),rgba(255,255,255,0.02))]",
+        "shadow-[0_10px_30px_-22px_rgba(0,0,0,0.9)]",
+        "backdrop-blur",
         toneClass,
         className
       )}
@@ -73,6 +95,7 @@ export function H1({ className, ...props }: HeadingProps) {
       {...props}
       className={cx(
         "text-3xl font-semibold tracking-tight md:text-5xl",
+        "leading-[1.06]",
         className
       )}
     />
@@ -83,7 +106,11 @@ export function H2({ className, ...props }: HeadingProps) {
   return (
     <h2
       {...props}
-      className={cx("text-xl font-semibold tracking-tight md:text-2xl", className)}
+      className={cx(
+        "text-xl font-semibold tracking-tight md:text-2xl",
+        "leading-snug",
+        className
+      )}
     />
   );
 }
@@ -99,7 +126,10 @@ export function H3({ className, ...props }: HeadingProps) {
 
 export function Muted({ className, ...props }: PProps) {
   return (
-    <p {...props} className={cx("text-sm text-muted", className)} />
+    <p
+      {...props}
+      className={cx("text-sm text-muted leading-relaxed", className)}
+    />
   );
 }
 
@@ -115,7 +145,10 @@ export function ExternalLink({
       href={href}
       target="_blank"
       rel="noreferrer noopener"
-      className={cx("text-sm hover:underline", className)}
+      className={cx(
+        "text-sm text-text/90 hover:text-text hover:underline underline-offset-4",
+        className
+      )}
     >
       {children}
     </a>
@@ -132,9 +165,17 @@ export function ButtonLink({
   variant?: "solid" | "ghost";
 }) {
   const base =
-    "inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-semibold transition";
-  const solid = "bg-accent text-bg hover:opacity-90";
-  const ghost = "border border-line bg-transparent text-text hover:bg-card";
+    "relative inline-flex items-center justify-center rounded-2xl px-5 py-3 text-sm font-semibold transition";
+  const solid = cx(
+    "bg-accent text-bg",
+    "shadow-[0_18px_60px_-28px_rgba(90,220,255,0.9)]",
+    "hover:opacity-95 hover:-translate-y-[1px] active:translate-y-0"
+  );
+  const ghost = cx(
+    "border border-line/70 bg-[linear-gradient(180deg,rgba(255,255,255,0.05),rgba(255,255,255,0.015))]",
+    "text-text hover:bg-card/40",
+    "shadow-[0_14px_40px_-28px_rgba(0,0,0,0.9)]"
+  );
 
   return (
     <Link
